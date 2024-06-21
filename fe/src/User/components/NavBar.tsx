@@ -1,7 +1,7 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import '../LandingPage.css'
+import '../LandingPage/LandingPage.css'
 
 const NavBar: React.FC = () => {
     return (
@@ -61,7 +61,9 @@ const NavBar: React.FC = () => {
                                     <a className="nav-link navbar-menu" href="#section-faq">FAQ</a>
                                 </li>
                                 <li className="nav-item p-2">
+                                    <a href="/login">
                                     <button className="button">Register</button>
+                                    </a>
                                 </li>
                             </ul>
                         </div>

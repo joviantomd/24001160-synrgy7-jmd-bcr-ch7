@@ -1,5 +1,5 @@
 import React from "react";
-import '../LandingPage.css'
+import '../LandingPage/LandingPage.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 const HeroSection:React.FC = () =>{

@@ -19,11 +19,11 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { Link, useNavigate } from 'react-router-dom';
+import "./Sidebar.css"
+import ListCar from './pages/ListCar/ListCar';
 
 const drawerWidth = 240;
 
@@ -76,12 +76,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-
-
 export default function PersistentDrawerLeft() {
-
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [selectedMenuItem, setSelectedMenuItem] = React.useState('Dashboard');
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate()
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAuth(event.target.checked);
@@ -91,12 +92,10 @@ export default function PersistentDrawerLeft() {
         setAnchorEl(event.currentTarget);
     };
 
+
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -105,6 +104,16 @@ export default function PersistentDrawerLeft() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const handleMenuItemClick = (text: string) => {
+        setSelectedMenuItem(text);
+        // Additional logic to navigate to the corresponding section if needed
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/admin");
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -120,43 +129,43 @@ export default function PersistentDrawerLeft() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    {/* <Typography className="" variant="h6" noWrap component="div">
                         Persistent drawer
-                    </Typography>
-
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleMenu}
-                        color="inherit"
+                    </Typography> */}
+                    <div
+                        className="icon-person"
                     >
-                        <AccountCircle />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                    </Menu>
+                        <IconButton
 
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                        </Menu>
+                    </div>
                 </Toolbar>
-
             </AppBar>
-
 
             <Drawer
                 sx={{
@@ -178,9 +187,14 @@ export default function PersistentDrawerLeft() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Dashboard','Cars'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                    {['Dashboard', 'Cars'].map((text, index) => (
+                        <ListItem
+                            key={text}
+                            disablePadding
+                            selected={selectedMenuItem === text}
+                            onClick={() => handleMenuItemClick(text)}
+                        >
+                            <ListItemButton selected={selectedMenuItem === text}>
                                 <ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                 </ListItemIcon>
@@ -189,38 +203,22 @@ export default function PersistentDrawerLeft() {
                         </ListItem>
                     ))}
                 </List>
-                
             </Drawer>
-            <Main open={open}>
+
+            <Main open={open} id='MainSection'>
                 <DrawerHeader />
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                    imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-                    Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-                    Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-                    nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-                    leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-                    feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-                    consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                    sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-                    eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-                    neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-                    tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-                    sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-                    tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-                    gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-                    et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-                    tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-                    eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-                    posuere sollicitudin aliquam ultrices sagittis orci a.
-                </Typography>
+                {selectedMenuItem === 'Dashboard' && (
+                    // <Typography paragraph>
+                    //     Dashboard content goes here...
+                    // </Typography>
+                    <ListCar/>
+                )}
+                {selectedMenuItem === 'Cars' && (
+                    <Typography paragraph>
+                        Cars content goes here...
+                    </Typography>
+                )}
             </Main>
-        </Box >
+        </Box>
     );
 }

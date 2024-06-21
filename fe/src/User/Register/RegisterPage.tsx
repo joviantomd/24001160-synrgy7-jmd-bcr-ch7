@@ -1,50 +1,51 @@
 import React, { useState } from 'react';
-import './AdminLoginPage.css';
+import './RegisterPage.css';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
-const LoginUser: React.FC = () => {
+const RegisterUser: React.FC = () => {
+    const [name, setName] = useState(''); // Mengubah fullName menjadi name
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const loginData = { email, password }; // Menggunakan email dan password untuk data login
+
+        
+
+        const registerData = { name, email, password }; // Menggunakan name, email, dan password untuk data registrasi
+
 
         try {
-            const response = await fetch("http://localhost:3000/user/login", {
+            const response = await fetch("http://localhost:3000/user/register", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(loginData),
-                
+                body: JSON.stringify(registerData),
             });
 
             if (response.ok) {
                 const result = await response.json();
-                console.log('Login successful:', result);
-                localStorage.setItem('token', result.token);
-               
-                if (result.role === 'admin' || result.role === 'superadmin') {
-                    navigate('/dashboard');
-                } else {
-                    setError('You do not have permission to access the dashboard.');
-                    navigate('/')
-                }
+                console.log('Registration successful:', result);
+                // Implementasi setelah registrasi sukses, misalnya menyimpan token atau mengarahkan ke halaman lain
+                navigate('/login');
+
             } else {
                 const error = await response.json();
-                console.error('Login failed:', error);
-               
+                console.error('Registration failed:', error);
+                // Menampilkan pesan error ke pengguna
             }
         } catch (error) {
             console.error('Error:', error);
-           
+            // Menampilkan pesan error ke pengguna
         }
     };
 
+    const handleLoginClick = () =>{
+        navigate('/login');
+    }
     return (
         <div className="body">
             <div className="imagecars">
@@ -54,17 +55,27 @@ const LoginUser: React.FC = () => {
                 <div className="rectangle"></div>
                 <div>
                     <p className="titledashboard">
-                        Welcome, Admin BCR
+                        Welcome to Binar Car Rental
                     </p>
                 </div>
                 <form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="formBasicFullName">
+                        <Form.Label>Full Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Input Your Full Name"
+                            value={name} // Mengubah value menjadi name
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control
                             type="email"
                             placeholder="Input Your Email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)} // Mengubah setUsername menjadi setEmail
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </Form.Group>
@@ -78,8 +89,11 @@ const LoginUser: React.FC = () => {
                             required
                         />
                     </Form.Group>
-                    <button className="login-button" type="submit">
-                        Sign In
+                    <button className="regis-button" type="submit">
+                        Register
+                    </button>
+                    <button className="loginuser-button" onClick={handleLoginClick}>
+                        Login
                     </button>
                 </form>
             </div>
@@ -87,4 +101,4 @@ const LoginUser: React.FC = () => {
     );
 };
 
-export default LoginUser;
+export default RegisterUser;

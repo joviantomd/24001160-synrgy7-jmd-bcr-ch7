@@ -4,6 +4,7 @@ import knex from "knex";
 import userRouter from "./routes/user.routes";
 import carsRouter from "./routes/cars.routes";
 import bodyParser from "body-parser";
+import cors from 'cors';
 import { Model } from "objection";
 
 const port = 3000;
@@ -20,6 +21,11 @@ const knexInstance = knex({
 })
 
 Model.knex(knexInstance)
+
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 

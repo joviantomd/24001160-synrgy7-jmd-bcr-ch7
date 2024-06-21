@@ -13,40 +13,6 @@ import { encryptPassword, checkPassword, createToken } from "../../middlewares/a
 const SALT = 10;
 
 
-
-// function encryptPassword(password: string): Promise<string> {
-//   return new Promise((resolve, reject) => {
-//     bcrypt.hash(password, SALT, (err, encryptedPassword) => {
-//       if (err) {
-//         reject(err);
-//         return;
-//       }
-//       resolve(encryptedPassword);
-//     });
-//   });
-// }
-
-// function checkPassword(
-//   encryptedPassword: string,
-//   password: string
-// ): Promise<boolean> {
-//   return new Promise((resolve, reject) => {
-//     bcrypt.compare(password, encryptedPassword, (err, isPasswordCorrect) => {
-//       if (err) {
-//         reject(err);
-//         return;
-//       }
-//       resolve(isPasswordCorrect);
-//     });
-//   });
-// }
-
-// function createToken(payload: object): string {
-//   return jwt.sign(payload, process.env.JWT_SIGNATURE_KEY || "Rahasia");
-// }
-
-//Register User
-
 export const registerUser = async (req: Request, res: Response) => {
   const email = req.body.email.toLowerCase();
   const encryptedPassword = await encryptPassword(req.body.password);
@@ -72,7 +38,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
 //Login User
 export const loginUser = async (req: Request, res: Response) => {
-  const email = req.body.email.toLowerCase();
+  const email = req.body.email.toString().toLowerCase();
   const password = req.body.password;
 
   const user = await getUserByEmail(email);
@@ -102,7 +68,8 @@ export const loginUser = async (req: Request, res: Response) => {
   res.status(201).json({
     id: user.id,
     email: user.email,
-    token: token, // Kita bakal ngomongin ini lagi nanti.
+    token: token,
+    role: user.role// Kita bakal ngomongin ini lagi nanti.
     // createdAt: user.createdAt,
     // updatedAt: user.updatedAt,
   });

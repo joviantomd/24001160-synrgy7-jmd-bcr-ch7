@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import './AdminLoginPage.css';
+import './LoginPage.css';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
 const LoginUser: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -28,12 +27,8 @@ const LoginUser: React.FC = () => {
                 console.log('Login successful:', result);
                 localStorage.setItem('token', result.token);
                
-                if (result.role === 'admin' || result.role === 'superadmin') {
-                    navigate('/dashboard');
-                } else {
-                    setError('You do not have permission to access the dashboard.');
-                    navigate('/')
-                }
+                navigate('/filter');
+
             } else {
                 const error = await response.json();
                 console.error('Login failed:', error);
@@ -45,6 +40,10 @@ const LoginUser: React.FC = () => {
         }
     };
 
+    const handleRegisterClick = () =>{
+        navigate('/register')
+    }
+
     return (
         <div className="body">
             <div className="imagecars">
@@ -54,7 +53,7 @@ const LoginUser: React.FC = () => {
                 <div className="rectangle"></div>
                 <div>
                     <p className="titledashboard">
-                        Welcome, Admin BCR
+                        Welcome to Binar Car Rental
                     </p>
                 </div>
                 <form onSubmit={handleSubmit}>
@@ -80,6 +79,9 @@ const LoginUser: React.FC = () => {
                     </Form.Group>
                     <button className="login-button" type="submit">
                         Sign In
+                    </button>
+                    <button className="register-button" onClick={handleRegisterClick}>
+                        Register
                     </button>
                 </form>
             </div>

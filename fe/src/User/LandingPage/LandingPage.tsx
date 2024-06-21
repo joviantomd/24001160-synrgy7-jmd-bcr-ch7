@@ -2,11 +2,11 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './LandingPage.css'
-import ComponentCarousel from './components/Carousel';
+import ComponentCarousel from '../components/Carousel';
 
-import HeroSection from './components/Hero';
-import NavBar from './components/NavBar';
-import Footer from './components/Footer'
+import HeroSection from '../components/Hero';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer'
 
 const Home: React.FC = () => {
     return (

@@ -1,0 +1,18 @@
+.ListCar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.ListCarText {
+  width: 100%;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  text-align: left;
+}
+
+.button-add-new {
+  width: fit-content;
+}
