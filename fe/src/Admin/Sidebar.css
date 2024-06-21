@@ -7,6 +7,5 @@
 }
 
 #MainSection{
-    min-width: 1280px;
-    max-width: 1920px;
+    width: 1280px;
 }

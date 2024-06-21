@@ -12,7 +12,7 @@
 
     res.status(200).json({
       message:"This is list All Available Cars",
-      cars: carsAvailable
+      listcars: carsAvailable
     })
 
   }
@@ -22,8 +22,7 @@
     const cars = await getAllCars();
 
     res.status(200).json({
-      message: "OK",
-      cars: cars,
+      cars
     });
   };
 
