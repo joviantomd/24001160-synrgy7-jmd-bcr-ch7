@@ -37,6 +37,32 @@ const ListCar: React.FC = () => {
         setActiveFilter(filter);
     };
 
+    const handleDeleteClick = async (carId: number) => {
+        if (!token) {
+            setError("No token available for authentication");
+            return;
+        }
+        try {
+            const response = await fetch(`http://localhost:3000/cars/${carId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to delete car: ${response.statusText}`);
+            }
+
+            // Remove the deleted car from the state
+            setCars(prevCars => prevCars.filter(car => car.id !== carId));
+        } catch (error) {
+            setError(error.message || "Failed to delete car");
+            console.error("Error deleting car:", error);
+        }
+    };
+
+
     useEffect(() => {
         const fetchData = async () => {
             if (!token) {
@@ -139,7 +165,10 @@ const ListCar: React.FC = () => {
                                 <p className="body-14-light">Updated at {format(new Date(car.updatedAt), 'dd/MM/yyyy, HH:mm')}</p>
                             </div>
                             <div className="button-card">
-                                <button className="delete-button body-14-bold">
+                                <button 
+                                    className="delete-button body-14-bold"
+                                    onClick={() => handleDeleteClick(car.id)}
+                                >
                                     Delete
                                 </button>
                                 <button className="edit-button body-14-bold">
