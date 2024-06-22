@@ -77,6 +77,10 @@ const ListCar: React.FC = () => {
         }
     }, [token]);
 
+    const filteredCars = activeFilter === "All"
+        ? cars
+        : cars.filter(car => car.category.toLowerCase() === activeFilter.toLowerCase());
+
     if (loading) {
         return <div className="SectionViewCars">Loading...</div>;
     }
@@ -122,7 +126,7 @@ const ListCar: React.FC = () => {
                 </button>
             </div>
             <div className="SectionViewCars">
-                {cars.map(car => (
+                {filteredCars.map(car => (
                     <div key={car.id} className="HeadCardCar">
                         <img className="img-car" src={car.image} alt={car.name} />
                         <div className="BodyCardCar">
