@@ -24,6 +24,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
 import "./Sidebar.css"
 import ListCar from './pages/ListCar/ListCar';
+import UserProvider from './context/UserContext';
+import User from './components/User';
+
 
 const drawerWidth = 240;
 
@@ -135,6 +138,9 @@ export default function PersistentDrawerLeft() {
                     <div
                         className="icon-person"
                     >
+                        <UserProvider>
+                            <User/>
+                        </UserProvider>
                         <IconButton
 
                             size="large"
